@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ly.ssm.dufy.dao.UserDao">
+
+    <resultMap id="userResultMap" type="com.ly.ssm.dufy.entity.User" >
+        <id column="id_" property="id" jdbcType="VARCHAR" />
+        <result column="name_" property="name" jdbcType="VARCHAR"/>
+        <result column="age_" property="age" jdbcType="INTEGER"/>
+        <result column="address_" property="address" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <insert id="insertUserInfoXml" parameterType="com.ly.ssm.dufy.entity.User">
+        INSERT INTO my_t_user (id_, name_) VALUES (#{id, jdbcType=VARCHAR}, #{name, jdbcType=VARCHAR})
+    </insert>
+    
+    <insert id="insertUserBatch" parameterType="java.util.List">
+        INSERT INTO my_t_user (id_, name_, address_) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id, jdbcType=VARCHAR}, #{item.name, jdbcType=VARCHAR}, #{item.address, jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+
+
+
+
+</mapper>

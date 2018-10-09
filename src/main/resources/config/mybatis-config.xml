@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <typeAliases>
+        <!-- 这样会将com.ly.mybatisannotationxml.model包及其子包下的所有类起别名为相应的简单类名 -->
+        <!--<package name="com.ly.ssm.dufy.entity"/>-->
+    </typeAliases>
+
+
+    <!-- 配置映射文件 -->
+    <!--package name与class配置方式要求*Mapper.java与*Mapper.xml必须在同一个目录下边-->
+    <!--<mappers>
+        <package name="com.ly.ssm.dufy.dao.user"/>
+        <mapper class="com.ly.ssm.dufy.dao.user.UserDao"/>
+    </mappers>-->
+
+
+
+</configuration>

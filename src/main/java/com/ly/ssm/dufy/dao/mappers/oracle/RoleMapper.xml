@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ly.ssm.dufy.dao.RoleMapper">
+
+    <insert id="insertUserInfoXml" parameterType="com.ly.ssm.dufy.entity.User">
+        INSERT INTO my_t_user (id_, name_, address_) VALUES (#{id, jdbcType=VARCHAR}, #{name, jdbcType=VARCHAR}, '角色')
+    </insert>
+
+</mapper>

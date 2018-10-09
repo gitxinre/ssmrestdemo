@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--
+        MethodInvokingJobDetailFactoryBean,implements Job,extends QuartzJobBean
+        1、定义工作任务的JobDetail
+        MethodInvokingJobDetailFactoryBean与JobDetailFactoryBean
+        2、定义触发器Trigger，并将工作任务与触发器绑定
+        一个触发器只能绑定一个任务，一个任务可以被多个触发器绑定
+        3、定义调度器Scheduler，并将trigger注册到Scheduler
+    -->
+    <!--bean-->
+    <bean id="myJob" class="com.ly.ssm.scheduling.service.MyJob"/>
+    <!--jobDetail-->
+    <bean id="myJobImplJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="com.ly.ssm.scheduling.service.MyJobImplJob"/>
+        <property name="durability" value="true"/>
+    </bean>
+    <bean id="myJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="myJob"/>
+        <property name="targetMethod" value="saveUserInfo"/>
+    </bean>
+    <bean id="myJobExtendsQuartzJobBeanJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="com.ly.ssm.scheduling.service.MyJobExtendsQuartzJobBean"/>
+        <property name="durability" value="true"/>
+    </bean>
+
+    <!--trigger-->
+    <bean id="myJobImplJobCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="myJobImplJobDetail"/>
+        <property name="cronExpression" value="0/1 * * * * ?"/>
+    </bean>
+    <bean id="myJobImplJobCronTrigger1" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="myJobImplJobDetail"/>
+        <property name="cronExpression" value="0/1 * * * * ?"/>
+    </bean>
+    <bean id="myJobImplJobCronTrigger2" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="myJobImplJobDetail"/>
+        <property name="cronExpression" value="0/1 * * * * ?"/>
+    </bean>
+    <bean id="myJobCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="myJobDetail"/>
+        <property name="cronExpression" value="0/1 * * * * ?"/>
+    </bean>
+    <bean id="myJobExtendsQuartzJobBeanCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="myJobExtendsQuartzJobBeanJobDetail"/>
+        <property name="cronExpression" value="0/1 * * * * ?"/>
+    </bean>
+
+
+    <!--scheduler-->
+    <bean id="myJobFactory" class="com.ly.ssm.scheduling.common.bean.MyJobFactory"/>
+    <bean id="myJobScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="jobFactory" ref="myJobFactory"/>
+        <property name="triggers">
+            <list>
+                <ref bean="myJobImplJobCronTrigger"/>
+                <ref bean="myJobImplJobCronTrigger1"/>
+                <ref bean="myJobImplJobCronTrigger2"/>
+                <ref bean="myJobCronTrigger"/>
+                <ref bean="myJobExtendsQuartzJobBeanCronTrigger"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>
