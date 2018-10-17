@@ -5,6 +5,9 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -25,7 +28,9 @@ public class UserControllerTest {
     private String path = "";
     private String requestMethod = "";
 
+    private RestTemplate restTemplate = new RestTemplate();
 
+    // 增 post
     @Test
     public void testSaveUser() throws IOException {
         requestMethod = "post";
@@ -37,9 +42,28 @@ public class UserControllerTest {
         path = "batch";
         requestMethod = "post";
         this.clientMethod(path, requestMethod, this.getUserList(50000), null);
+    }
+
+    @Test
+    public void testRestTemplatePostMethod() {
+        User user = this.newUser(50);
+        System.out.println("user = " + user);
+        ResponseEntity<String> stringResponseEntity = this.restTemplate.postForEntity(targetURL, user, String.class);
+        String body = stringResponseEntity.getBody();
+        System.out.println("body = " + body);
+    }
+
+    @Test
+    public void testRestTemplateBatchPostMethod() {
+        ResponseEntity<Integer> integerResponseEntity = this.restTemplate.postForEntity(targetURL + "/batch", this.getUserList(500000), Integer.class);
+        Integer body = integerResponseEntity.getBody();
+        System.out.println("body = " + body);
+
+
 
     }
 
+    // 删 delete
     @Test
     public void testRemoveUserById() throws IOException {
         path = "00009f22452c480a8e53fd45eb0bd639";
@@ -53,10 +77,17 @@ public class UserControllerTest {
         this.clientMethod(path, requestMethod, null, null);
     }
 
+    // 查 query
     @Test
     public void testListUser() throws IOException {
         requestMethod = "get";
         this.clientMethod(path, requestMethod, null, null);
+    }
+
+    @Test
+    public void testRestTemplate() {
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.delete("",this.getUserList(3));
     }
 
 
